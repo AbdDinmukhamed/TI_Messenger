@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
@@ -27,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ti_messenger.data.Contact
+import com.example.ti_messenger.data.ContactsRepository
 import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 
 class MainActivity : ComponentActivity() {
@@ -36,11 +39,24 @@ class MainActivity : ComponentActivity() {
         setContent {
             TI_MessengerTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ContactCard(modifier = Modifier.padding(innerPadding))
+                    ContactsList(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
     }
+}
+
+@Composable
+fun ContactsList(modifier: Modifier = Modifier){
+    LazyColumn(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ){
+        items(ContactsRepository.contacts){contact ->
+            ContactCard(contact)
+        }
+    }
+
 }
 
 @Composable
@@ -49,7 +65,6 @@ fun ContactCard(
     modifier: Modifier = Modifier
 ){
     Card(
-        modifier = modifier.padding(top = 4.dp, bottom = 12.dp),
         shape = RoundedCornerShape(4.dp)
     ){
         Row(){
@@ -79,6 +94,6 @@ fun ContactCard(
 @Composable
 fun GreetingPreview() {
     TI_MessengerTheme {
-        ContactCard(modifier = Modifier.statusBarsPadding())
+        ContactsList(modifier = Modifier.statusBarsPadding())
     }
 }
