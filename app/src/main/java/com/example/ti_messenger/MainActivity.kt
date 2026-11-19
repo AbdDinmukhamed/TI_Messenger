@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -33,8 +35,17 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ContactCard(modifier: Modifier = Modifier){
-    Card(){
-
+    Card(modifier){
+        Row(){
+            Image(painterResource(R.drawable.baikalpfp), contentDescription = null)
+            Column(){
+                Row(){
+                    Text(text = "Baikal")
+                    Text(text = "21:28")
+                }
+                Text(text = "Example message")
+            }
+        }
     }
 }
 
