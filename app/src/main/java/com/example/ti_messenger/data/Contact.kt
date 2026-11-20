@@ -1,11 +1,11 @@
 package com.example.ti_messenger.data
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 
 data class Contact(
+    val id: Int,
     @DrawableRes val profilePicture: Int,
-    @StringRes val nickname: Int,
-    @StringRes val lastMessage: Int,
-    @StringRes val lastTime: Int
+    val nickname: String,
+    val lastMessage: String,
+    val lastTime: String
 )

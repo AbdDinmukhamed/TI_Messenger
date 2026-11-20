@@ -60,10 +60,10 @@ fun ContactCard(
                     modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ){
-                    Text(text = stringResource(contact.nickname))
-                    Text(text = stringResource(contact.lastTime))
+                    Text(text = contact.nickname)
+                    Text(text = contact.lastTime)
                 }
-                Text(text = stringResource(contact.lastMessage), modifier = Modifier.padding(bottom = 4.dp))
+                Text(text = contact.lastMessage, modifier = Modifier.padding(bottom = 4.dp))
             }
         }
     }
