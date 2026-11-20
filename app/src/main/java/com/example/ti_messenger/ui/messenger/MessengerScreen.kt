@@ -64,7 +64,7 @@ fun MessengerScreen(
         items(messages){message ->
             val messageUser : Arrangement.Horizontal = if (message.userId == 0) Arrangement.End else Arrangement.Start
             Row(
-                modifier = Modifier.fillMaxWidth().padding(3.dp),
+                modifier = Modifier.fillMaxWidth().padding(start = 8.dp,end= 8.dp),
                 horizontalArrangement = messageUser
             ){
                 MessageCard(message)
@@ -82,7 +82,7 @@ fun MessageCard(
 
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(4.dp)
+        shape = RoundedCornerShape(4.dp),
     ){
         Column(
             modifier = Modifier

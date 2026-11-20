@@ -3,4 +3,6 @@
     <string name="nicknameBaikal">Baikal</string>
     <string name="lastMessageBaikal">Yo</string>
     <string name="lastTimeBaikal">21:28</string>
+    <string name="messenger">messenger</string>
+    <string name="back_button">prev screen</string>
 </resources>
