@@ -37,10 +37,10 @@ import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 fun MessengerScreen(
     modifier: Modifier = Modifier,
     MessengerUiState: MessengerUiState,
-    viewModel: ContactsViewModel = viewModel()
+    viewModel: MessengerViewModel = viewModel()
 ){
-    val contacts by viewModel.contacts.collectAsStateWithLifecycle()
-    Text(text = contacts[0].nickname)
+    val messages by viewModel.messages.collectAsStateWithLifecycle()
+    Text(text = messages[4].time)
 
 }
 
