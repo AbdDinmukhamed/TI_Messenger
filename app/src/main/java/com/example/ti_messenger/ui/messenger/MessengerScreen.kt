@@ -86,7 +86,7 @@ fun MessageCard(
     ){
         Column(
             modifier = Modifier
-                .sizeIn(150.dp,100.dp,200.dp,300.dp)
+                .sizeIn(150.dp,50.dp,200.dp)
                 .padding(5.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ){
