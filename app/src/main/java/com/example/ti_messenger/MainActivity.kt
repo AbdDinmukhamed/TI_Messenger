@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.example.ti_messenger.data.MessengerUiState
-import com.example.ti_messenger.ui.contacts.ContactsScreen
-import com.example.ti_messenger.ui.messenger.MessengerScreen
 import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 
 class MainActivity : ComponentActivity() {

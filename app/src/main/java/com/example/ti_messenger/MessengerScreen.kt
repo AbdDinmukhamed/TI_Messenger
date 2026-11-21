@@ -19,8 +19,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.ti_messenger.data.MessengerUiState
 import com.example.ti_messenger.ui.contacts.ContactsScreen
 import com.example.ti_messenger.ui.contacts.ContactsViewModel
+import com.example.ti_messenger.ui.messenger.ChatScreen
 import com.example.ti_messenger.ui.messenger.MessengerViewModel
 
 enum class MessengerScreen(@StringRes val title: Int) {
@@ -49,6 +51,7 @@ fun MessengerAppBar(
     )
 }
 
+
 @Composable
 fun MessengerApp(
     contacts: ContactsViewModel = viewModel(),
@@ -63,6 +66,7 @@ fun MessengerApp(
             )
         }
     ){ innerPadding ->
-        ContactsScreen(Modifier.padding(innerPadding))
+        //ContactsScreen(Modifier.padding(innerPadding))
+        ChatScreen(modifier = Modifier.padding(innerPadding),MessengerUiState = MessengerUiState(0,R.drawable.baikalpfp,"Baikal"))
     }
 }
