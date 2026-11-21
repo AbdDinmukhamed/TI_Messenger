@@ -11,6 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -63,6 +66,15 @@ fun MessengerApp(
     val currentScreen = MessengerScreen.valueOf(
         backStackEntry?.destination?.route ?: MessengerScreen.Contacts.name
     )
+    var selectedContact by remember {
+        mutableStateOf(
+            MessengerUiState(
+                id = 0,
+                profilePicture = R.drawable.baikalpfp,
+                nickname = "Baikal"
+            )
+        )
+    }
     Scaffold(
         topBar = {
             MessengerAppBar(
@@ -77,7 +89,12 @@ fun MessengerApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = MessengerScreen.Contacts.name) {
-                ContactsScreen(onContactButtonClick = {
+                ContactsScreen(onContactButtonClick = { contact ->
+                    selectedContact = MessengerUiState(
+                        id = contact.id,
+                        profilePicture = contact.profilePicture,
+                        nickname = contact.nickname
+                    )
                     navController.navigate(MessengerScreen.Messenger.name)
                 })
             }
