@@ -1,22 +1,40 @@
 package com.example.ti_messenger.ui.chat
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -32,20 +50,36 @@ fun ChatScreen(
     modifier: Modifier = Modifier,
     chatHistory: List<Message> = listOf(),
 ){
+    var messageInput by remember { mutableStateOf("") }
+    Box(modifier = Modifier.fillMaxSize()){
+        LazyColumn(
+            modifier = modifier,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ){
 
-    LazyColumn(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ){
-
-        items(chatHistory){message ->
-            val messageUser : Arrangement.Horizontal = if (message.userId == 0) Arrangement.End else Arrangement.Start
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(start = 8.dp,end= 8.dp),
-                horizontalArrangement = messageUser
-            ){
-                MessageCard(message)
+            items(chatHistory){message ->
+                val messageUser : Arrangement.Horizontal = if (message.userId == 0) Arrangement.End else Arrangement.Start
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(start = 8.dp,end= 8.dp),
+                    horizontalArrangement = messageUser
+                ){
+                    MessageCard(message)
+                }
             }
+        }
+        Row(
+            modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
+            .navigationBarsPadding()){
+            TextField(
+                placeholder = { Text("Message") },
+                value = messageInput,
+                onValueChange = { messageInput = it },
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
+                modifier = modifier.weight(1f)
+            )
         }
     }
 }
@@ -78,6 +112,23 @@ fun MessageCard(
 @Composable
 fun GreetingPreview() {
     TI_MessengerTheme {
-        ChatScreen(modifier = Modifier.statusBarsPadding())
+        ChatScreen(modifier = Modifier.statusBarsPadding(), chatHistory = listOf(
+            Message("Test1","03:10",1),
+            Message("LOOOOOOOOOONG MESSAGE","03:10",0),
+            Message("Multi\nParagraph\nMessage","03:10",0),
+            Message("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac placerat nisi, ac venenatis quam. In in leo a neque fermentum placerat. Pellentesque tempus lectus ac eros placerat, sed scelerisque nisl placerat. Praesent quis metus ligula. Vestibulum eget dignissim eros, vel lacinia risus. Proin quis efficitur est","03:11",1),
+            Message("a","03:11",0),
+            Message("Test6","03:11",1),
+            Message("Test7","03:11",0),
+            Message("Test8","03:12",1),
+            Message("Test9","03:13",0),
+            Message("Test10","03:13",1),
+            Message("Test11","03:13",0),
+            Message("Test12","03:13",0),
+            Message("Test13","03:14",1),
+            Message("Test14","03:14",1),
+            Message("Test15","03:14",1),
+            Message("bro","03:14",1),
+        ))
     }
 }
