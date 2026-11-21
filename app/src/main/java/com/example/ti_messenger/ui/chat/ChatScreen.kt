@@ -1,4 +1,4 @@
-package com.example.ti_messenger.ui.messenger
+package com.example.ti_messenger.ui.chat
 
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.Arrangement
@@ -30,7 +30,7 @@ import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 fun ChatScreen(
     modifier: Modifier = Modifier,
     MessengerUiState: MessengerUiState,
-    viewModel: MessengerViewModel = viewModel()
+    viewModel: ChatViewModel = viewModel()
 ){
     val messages by viewModel.messages.collectAsStateWithLifecycle()
 
