@@ -35,7 +35,7 @@ import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 fun ContactsScreen(
     modifier: Modifier = Modifier,
     viewModel: ContactsViewModel = viewModel(),
-    onContactButtonClick: () -> Unit
+    onContactButtonClick: (Contact) -> Unit
 ){
     val contacts by viewModel.contacts.collectAsStateWithLifecycle()
     LazyColumn(
@@ -54,12 +54,12 @@ fun ContactsScreen(
 fun ContactCard(
     contact: Contact,
     modifier: Modifier = Modifier,
-    onContactButtonClick: () -> Unit
+    onContactButtonClick: (Contact) -> Unit
 ){
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(4.dp),
-        onClick = { onContactButtonClick() }
+        onClick = { onContactButtonClick(contact) }
     ){
         Row(){
             Image(
