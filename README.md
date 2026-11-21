@@ -5,8 +5,8 @@ Messenger application built on Jetpack Compose
 
 ## Group Members Names
 
-Nuraly Myrzatayev
-Dinmukhamed Abdrakhpan
+* Nuraly Myrzatayev
+* Dinmukhamed Abdrakhpan
 
 ## Main features
 
