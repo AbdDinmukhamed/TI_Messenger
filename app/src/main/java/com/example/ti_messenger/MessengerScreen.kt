@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -58,23 +59,16 @@ fun MessengerAppBar(
 
 @Composable
 fun MessengerApp(
-    contacts: ContactsViewModel = viewModel(),
-    messages: ChatViewModel = viewModel(),
+    contactsViewModel: ContactsViewModel = viewModel(),
+    chatViewModel: ChatViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = MessengerScreen.valueOf(
         backStackEntry?.destination?.route ?: MessengerScreen.Contacts.name
     )
-    var selectedContact by remember {
-        mutableStateOf(
-            MessengerUiState(
-                id = 0,
-                profilePicture = R.drawable.baikalpfp,
-                nickname = "Baikal"
-            )
-        )
-    }
+    val contacts by contactsViewModel.contacts.collectAsStateWithLifecycle()
+    val messages by chatViewModel.uiState.collectAsStateWithLifecycle()
     Scaffold(
         topBar = {
             MessengerAppBar(
@@ -89,12 +83,7 @@ fun MessengerApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = MessengerScreen.Contacts.name) {
-                ContactsScreen(onContactButtonClick = { contact ->
-                    selectedContact = MessengerUiState(
-                        id = contact.id,
-                        profilePicture = contact.profilePicture,
-                        nickname = contact.nickname
-                    )
+                ContactsScreen(onContactButtonClick = {
                     navController.navigate(MessengerScreen.Messenger.name)
                 })
             }

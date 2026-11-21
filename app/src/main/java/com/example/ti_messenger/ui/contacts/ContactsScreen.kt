@@ -34,10 +34,9 @@ import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 @Composable
 fun ContactsScreen(
     modifier: Modifier = Modifier,
-    viewModel: ContactsViewModel = viewModel(),
+    contacts: List<Contact> = listOf(),
     onContactButtonClick: (Contact) -> Unit
 ){
-    val contacts by viewModel.contacts.collectAsStateWithLifecycle()
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)

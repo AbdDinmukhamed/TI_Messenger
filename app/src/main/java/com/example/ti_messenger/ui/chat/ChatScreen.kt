@@ -30,18 +30,15 @@ import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 @Composable
 fun ChatScreen(
     modifier: Modifier = Modifier,
-    viewModel: ChatViewModel = viewModel()
+    chatHistory: List<Message> = listOf(),
 ){
-    val uiState by viewModel.uiState.collectAsState()
-    val messages = uiState.messagesHistory
-
 
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ){
 
-        items(messages){message ->
+        items(chatHistory){message ->
             val messageUser : Arrangement.Horizontal = if (message.userId == 0) Arrangement.End else Arrangement.Start
             Row(
                 modifier = Modifier.fillMaxWidth().padding(start = 8.dp,end= 8.dp),
