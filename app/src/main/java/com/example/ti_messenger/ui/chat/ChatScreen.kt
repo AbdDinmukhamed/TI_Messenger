@@ -1,6 +1,5 @@
 package com.example.ti_messenger.ui.chat
 
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,10 +8,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,18 +23,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ti_messenger.R
 import com.example.ti_messenger.data.Message
-import com.example.ti_messenger.data.MessengerUiState
+import com.example.ti_messenger.data.ChatUiState
 import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 
 
 @Composable
 fun ChatScreen(
     modifier: Modifier = Modifier,
-    MessengerUiState: MessengerUiState,
     viewModel: ChatViewModel = viewModel()
 ){
-    val messages by viewModel.messages.collectAsStateWithLifecycle()
-
+    val uiState by viewModel.uiState.collectAsState()
+    val messages = uiState.messagesHistory
 
 
     LazyColumn(
@@ -81,6 +81,6 @@ fun MessageCard(
 @Composable
 fun GreetingPreview() {
     TI_MessengerTheme {
-        ChatScreen(modifier = Modifier.statusBarsPadding(),MessengerUiState = MessengerUiState(0,R.drawable.baikalpfp,"Baikal"))
+        ChatScreen(modifier = Modifier.statusBarsPadding())
     }
 }
