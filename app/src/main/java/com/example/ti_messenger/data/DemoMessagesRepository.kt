@@ -29,7 +29,7 @@ object DemoMessagesRepository {
             Message("Test6","03:11",1),
             Message("Test7","03:11",0),
             Message("Test8","03:12",1),
-            Message("Test9","03:13",0),
+            Message("AAAAAAAAAsdfghjk","03:13",0),
             Message("Test10","03:13",1),
             Message("Test11","03:13",0),
             Message("Test12","03:13",0),

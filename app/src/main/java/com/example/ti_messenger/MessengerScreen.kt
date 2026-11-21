@@ -11,9 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,7 +21,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.ti_messenger.data.ChatUiState
 import com.example.ti_messenger.ui.contacts.ContactsViewModel
 import com.example.ti_messenger.ui.chat.ChatScreen
 import com.example.ti_messenger.ui.chat.ChatViewModel
@@ -83,12 +79,22 @@ fun MessengerApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = MessengerScreen.Contacts.name) {
-                ContactsScreen(onContactButtonClick = {
-                    navController.navigate(MessengerScreen.Messenger.name)
-                })
+                ContactsScreen(
+                    onContactButtonClick = { contact ->
+                        chatViewModel.setChat(
+                            id = contact.id,
+                            profilePicture = contact.profilePicture,
+                            nickname = contact.nickname)
+                        navController.navigate(MessengerScreen.Messenger.name)
+                    },
+                    contacts = contacts
+                )
             }
             composable(route = MessengerScreen.Messenger.name) {
-                ChatScreen(modifier = Modifier.statusBarsPadding())
+                ChatScreen(
+                    modifier = Modifier.statusBarsPadding(),
+                    chatHistory = messages.messagesHistory,
+                )
             }
         }
     }
