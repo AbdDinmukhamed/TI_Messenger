@@ -20,7 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.ti_messenger.data.MessengerUiState
+import com.example.ti_messenger.data.ChatUiState
 import com.example.ti_messenger.ui.contacts.ContactsViewModel
 import com.example.ti_messenger.ui.chat.ChatScreen
 import com.example.ti_messenger.ui.chat.ChatViewModel
@@ -82,7 +82,7 @@ fun MessengerApp(
                 })
             }
             composable(route = MessengerScreen.Messenger.name) {
-                ChatScreen(modifier = Modifier.statusBarsPadding(),MessengerUiState = MessengerUiState(id=0,profilePicture=R.drawable.baikalpfp,"Baikal"))
+                ChatScreen(modifier = Modifier.statusBarsPadding(),ChatUiState = ChatUiState(id=0,profilePicture=R.drawable.baikalpfp,"Baikal"))
             }
         }
     }

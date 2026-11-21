@@ -1,6 +1,5 @@
 package com.example.ti_messenger.ui.chat
 
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,17 +21,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ti_messenger.R
 import com.example.ti_messenger.data.Message
-import com.example.ti_messenger.data.MessengerUiState
+import com.example.ti_messenger.data.ChatUiState
 import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 
 
 @Composable
 fun ChatScreen(
     modifier: Modifier = Modifier,
-    MessengerUiState: MessengerUiState,
     viewModel: ChatViewModel = viewModel()
 ){
-    val messages by viewModel.messages.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
 
 
@@ -81,6 +79,6 @@ fun MessageCard(
 @Composable
 fun GreetingPreview() {
     TI_MessengerTheme {
-        ChatScreen(modifier = Modifier.statusBarsPadding(),MessengerUiState = MessengerUiState(0,R.drawable.baikalpfp,"Baikal"))
+        ChatScreen(modifier = Modifier.statusBarsPadding())
     }
 }
