@@ -82,7 +82,7 @@ fun MessengerApp(
                 })
             }
             composable(route = MessengerScreen.Messenger.name) {
-                ChatScreen(modifier = Modifier.statusBarsPadding(),ChatUiState = ChatUiState(id=0,profilePicture=R.drawable.baikalpfp,"Baikal"))
+                ChatScreen(modifier = Modifier.statusBarsPadding())
             }
         }
     }

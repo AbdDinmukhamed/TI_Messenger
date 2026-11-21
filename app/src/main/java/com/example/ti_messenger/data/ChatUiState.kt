@@ -6,5 +6,5 @@ data class ChatUiState(
     val id: Int = 0,
     @DrawableRes val profilePicture: Int = 0,
     val nickname: String = "",
-    val messagesHistory: List<Message> = listOf(),
+    val messagesHistory: List<Message> = listOf(Message("Test1","03:10",1),Message("Test1","03:10",1)),
 )
