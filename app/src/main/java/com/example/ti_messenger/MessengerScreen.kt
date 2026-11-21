@@ -3,25 +3,31 @@ package com.example.ti_messenger
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.ti_messenger.data.MessengerUiState
 import com.example.ti_messenger.ui.contacts.ContactsViewModel
 import com.example.ti_messenger.ui.chat.ChatScreen
 import com.example.ti_messenger.ui.chat.ChatViewModel
+import com.example.ti_messenger.ui.contacts.ContactsScreen
 
 enum class MessengerScreen(@StringRes val title: Int) {
-    Start(title = R.string.app_name),
+    Contacts(title = R.string.app_name),
     Messenger(title = R.string.messenger),
 }
 
@@ -53,15 +59,31 @@ fun MessengerApp(
     messages: ChatViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentScreen = MessengerScreen.valueOf(
+        backStackEntry?.destination?.route ?: MessengerScreen.Contacts.name
+    )
     Scaffold(
         topBar = {
             MessengerAppBar(
-                currentScreen = MessengerScreen.Messenger,
+                currentScreen = currentScreen,
                 navigateUp = { navController.navigateUp() }
             )
         }
     ){ innerPadding ->
-        //ContactsScreen(Modifier.padding(innerPadding))
-        ChatScreen(modifier = Modifier.padding(innerPadding),MessengerUiState = MessengerUiState(0,R.drawable.baikalpfp,"Baikal"))
+        NavHost(
+            navController = navController,
+            startDestination = MessengerScreen.Contacts.name,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable(route = MessengerScreen.Contacts.name) {
+                ContactsScreen(onContactButtonClick = {
+                    navController.navigate(MessengerScreen.Messenger.name)
+                })
+            }
+            composable(route = MessengerScreen.Messenger.name) {
+                ChatScreen(modifier = Modifier.statusBarsPadding(),MessengerUiState = MessengerUiState(id=0,profilePicture=R.drawable.baikalpfp,"Baikal"))
+            }
+        }
     }
 }

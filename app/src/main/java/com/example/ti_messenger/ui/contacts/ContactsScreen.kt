@@ -1,6 +1,7 @@
 package com.example.ti_messenger.ui.contacts
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +34,8 @@ import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 @Composable
 fun ContactsScreen(
     modifier: Modifier = Modifier,
-    viewModel: ContactsViewModel = viewModel()
+    viewModel: ContactsViewModel = viewModel(),
+    onContactButtonClick: () -> Unit
 ){
     val contacts by viewModel.contacts.collectAsStateWithLifecycle()
     LazyColumn(
@@ -41,7 +44,7 @@ fun ContactsScreen(
     ){
 
         items(contacts){contact ->
-            ContactCard(contact)
+            ContactCard(contact, onContactButtonClick = onContactButtonClick)
         }
     }
 
@@ -50,11 +53,13 @@ fun ContactsScreen(
 @Composable
 fun ContactCard(
     contact: Contact,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onContactButtonClick: () -> Unit
 ){
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(4.dp)
+        shape = RoundedCornerShape(4.dp),
+        onClick = { onContactButtonClick() }
     ){
         Row(){
             Image(
@@ -83,6 +88,6 @@ fun ContactCard(
 @Composable
 fun GreetingPreview() {
     TI_MessengerTheme {
-        ContactsScreen(modifier = Modifier.statusBarsPadding())
+        ContactsScreen(modifier = Modifier.statusBarsPadding(), onContactButtonClick = {})
     }
 }
