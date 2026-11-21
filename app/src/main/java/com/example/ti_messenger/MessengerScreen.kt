@@ -144,6 +144,7 @@ fun MessengerApp(
                 ChatScreen(
                     modifier = Modifier.statusBarsPadding(),
                     chatHistory = messages.messagesHistory,
+                    sendMessage = {}
                 )
             }
         }

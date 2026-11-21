@@ -1,25 +1,31 @@
 package com.example.ti_messenger.ui.chat
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -33,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -50,9 +57,12 @@ import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 fun ChatScreen(
     modifier: Modifier = Modifier,
     chatHistory: List<Message> = listOf(),
+    sendMessage: (String) -> Unit
 ){
     var messageInput by remember { mutableStateOf("") }
-    Box(modifier = Modifier.fillMaxSize().imePadding() ){
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .imePadding() ){
         LazyColumn(
             modifier = modifier,
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -61,7 +71,9 @@ fun ChatScreen(
             items(chatHistory){message ->
                 val messageUser : Arrangement.Horizontal = if (message.userId == 0) Arrangement.End else Arrangement.Start
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(start = 8.dp,end= 8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp, end = 8.dp),
                     horizontalArrangement = messageUser
                 ){
                     MessageCard(message)
@@ -70,10 +82,11 @@ fun ChatScreen(
         }
         Row(
             modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
-            .navigationBarsPadding()){
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background)
+                .navigationBarsPadding(),
+            verticalAlignment = Alignment.CenterVertically){
             TextField(
                 placeholder = { Text("Message") },
                 value = messageInput,
@@ -81,6 +94,13 @@ fun ChatScreen(
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
                 modifier = modifier.weight(1f)
             )
+            IconButton(onClick = {sendMessage(messageInput)},
+                modifier = Modifier.size(40.dp)){
+                Image(
+                    painter = painterResource(R.drawable.baseline_send_24),
+                    contentDescription = stringResource(R.string.send_desc)
+                )
+            }
         }
     }
 }
@@ -98,7 +118,7 @@ fun MessageCard(
     ){
         Column(
             modifier = Modifier
-                .sizeIn(150.dp,50.dp,200.dp)
+                .sizeIn(150.dp, 50.dp, 200.dp)
                 .padding(5.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ){
@@ -130,6 +150,6 @@ fun GreetingPreview() {
             Message("Test14","03:14",1),
             Message("Test15","03:14",1),
             Message("bro","03:14",1),
-        ))
+        ), sendMessage = {})
     }
 }
