@@ -3,6 +3,7 @@ package com.example.ti_messenger.ui.chat
 import androidx.lifecycle.ViewModel
 import com.example.ti_messenger.data.ChatUiState
 import com.example.ti_messenger.data.DemoMessagesRepository
+import com.example.ti_messenger.data.ScrollPositions
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +18,6 @@ class ChatViewModel : ViewModel() {
         id: Int,
         profilePicture: Int,
         nickname: String,
-        scrollPos: Int,
         ) {
         _uiState.update { currentState ->
             currentState.copy(
@@ -25,7 +25,7 @@ class ChatViewModel : ViewModel() {
                 profilePicture = profilePicture,
                 nickname = nickname,
                 messagesHistory = DemoMessagesRepository.messageHistory[id]!!,
-                scrollPos = scrollPos,
+                scrollPos = ScrollPositions.getPosition(id, DemoMessagesRepository.messageHistory[id]!!),
             )
         }
     }
