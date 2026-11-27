@@ -34,6 +34,7 @@ import com.example.ti_messenger.ui.contacts.ContactsScreen
 enum class MessengerScreen(@StringRes val title: Int) {
     Contacts(title = R.string.app_name),
     Messenger(title = R.string.messenger),
+    ContactProfile(title = R.string.profile),
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -96,6 +97,9 @@ fun MessengerAppBar(
                 navigateUp = navigateUp,
                 modifier = modifier
             )
+        }
+        MessengerScreen.ContactProfile -> {
+            //nothing for now
         }
     }
 }

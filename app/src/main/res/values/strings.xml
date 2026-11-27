@@ -6,4 +6,7 @@
     <string name="messenger">messenger</string>
     <string name="back_button">prev screen</string>
     <string name="send_desc">SEND</string>
+    <string name="profile">Profile</string>
+    <string name="messages_count">Messages: %1$d</string>
+    <string name="clear_chat">Clear chat</string>
 </resources>
