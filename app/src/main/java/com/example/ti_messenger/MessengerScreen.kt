@@ -75,7 +75,12 @@ fun MessengerApp(
                     modifier = Modifier.statusBarsPadding(),
                     chatHistory = messages.messagesHistory,
                     sendMessage = {},
-                    scrollPosition = messages.scrollPos
+                    scrollPosition = messages.scrollPos,
+                    onSaveScrollPos = {
+                        chatViewModel.saveScrollPosition(
+                            id = messages.id,
+                            position = it)
+                    }
                 )
             }
             composable(route = MessengerScreen.ContactProfile.name) {

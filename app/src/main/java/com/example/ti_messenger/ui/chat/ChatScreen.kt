@@ -1,7 +1,10 @@
 package com.example.ti_messenger.ui.chat
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.DragInteraction
+import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +35,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -54,6 +58,10 @@ import com.example.ti_messenger.data.Message
 import com.example.ti_messenger.data.ChatUiState
 import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 
@@ -63,14 +71,22 @@ fun ChatScreen(
     chatHistory: List<Message> = listOf(),
     sendMessage: (String) -> Unit,
     scrollPosition: Int,
+    onSaveScrollPos: (Int) -> Unit,
 ){
     var messageInput by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-
+    val isFocused by listState.interactionSource.collectIsDraggedAsState()
+    LaunchedEffect(!isFocused) {
+        onSaveScrollPos(listState.firstVisibleItemIndex)
+    }
+    Log.d("lazyLISIIIISTISTI",listState.firstVisibleItemIndex.toString())
     Column(modifier = Modifier
         .fillMaxSize()
         .imePadding()){
+        LaunchedEffect(isFocused) {
+            println("isFocused: $isFocused")
+        }
         LazyColumn(
             modifier = modifier
                 .weight(1f),
@@ -80,6 +96,7 @@ fun ChatScreen(
             coroutineScope.launch {
                 listState.scrollToItem(scrollPosition)
             }
+
             items(chatHistory){message ->
                 val messageUser : Arrangement.Horizontal = if (message.userId == 0) Arrangement.End else Arrangement.Start
                 Row(
@@ -162,6 +179,6 @@ fun GreetingPreview() {
             Message("Test14","03:14",1),
             Message("Test15","03:14",1),
             Message("bro","03:14",1),
-        ), sendMessage = {}, scrollPosition = 0)
+        ), sendMessage = {}, scrollPosition = 0, onSaveScrollPos = {})
     }
 }
