@@ -60,11 +60,12 @@ fun ChatScreen(
     sendMessage: (String) -> Unit
 ){
     var messageInput by remember { mutableStateOf("") }
-    Box(modifier = Modifier
+    Column(modifier = Modifier
         .fillMaxSize()
         .imePadding() ){
         LazyColumn(
-            modifier = modifier,
+            modifier = modifier
+                .weight(1f),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ){
 
@@ -82,7 +83,6 @@ fun ChatScreen(
         }
         Row(
             modifier = Modifier
-                .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background)
                 .navigationBarsPadding(),
