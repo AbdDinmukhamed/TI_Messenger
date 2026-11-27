@@ -53,6 +53,7 @@ import com.example.ti_messenger.R
 import com.example.ti_messenger.data.Message
 import com.example.ti_messenger.data.ChatUiState
 import com.example.ti_messenger.ui.theme.TI_MessengerTheme
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 
@@ -60,11 +61,13 @@ import kotlinx.coroutines.launch
 fun ChatScreen(
     modifier: Modifier = Modifier,
     chatHistory: List<Message> = listOf(),
-    sendMessage: (String) -> Unit
+    sendMessage: (String) -> Unit,
+    scrollPosition: Int,
 ){
     var messageInput by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
-    //val coroutineScope = rememberCoroutineScope()
+    val coroutineScope = rememberCoroutineScope()
+
     Column(modifier = Modifier
         .fillMaxSize()
         .imePadding()){
@@ -74,6 +77,9 @@ fun ChatScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             state = listState
         ){
+            coroutineScope.launch {
+                listState.scrollToItem(scrollPosition)
+            }
             items(chatHistory){message ->
                 val messageUser : Arrangement.Horizontal = if (message.userId == 0) Arrangement.End else Arrangement.Start
                 Row(
@@ -156,6 +162,6 @@ fun GreetingPreview() {
             Message("Test14","03:14",1),
             Message("Test15","03:14",1),
             Message("bro","03:14",1),
-        ), sendMessage = {})
+        ), sendMessage = {}, scrollPosition = 0)
     }
 }
