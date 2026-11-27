@@ -2,6 +2,7 @@ package com.example.ti_messenger
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,6 +31,7 @@ import com.example.ti_messenger.ui.contacts.ContactsViewModel
 import com.example.ti_messenger.ui.chat.ChatScreen
 import com.example.ti_messenger.ui.chat.ChatViewModel
 import com.example.ti_messenger.ui.contacts.ContactsScreen
+import com.example.ti_messenger.ui.profile.ContactProfileScreen
 
 enum class MessengerScreen(@StringRes val title: Int) {
     Contacts(title = R.string.app_name),
@@ -51,6 +53,7 @@ fun ContactsBar(modifier: Modifier = Modifier){
 fun ChatBar(
     chatUiState: ChatUiState,
     navigateUp: () -> Unit,
+    onTitleClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     TopAppBar(
@@ -64,7 +67,10 @@ fun ChatBar(
             }
         },
         title = {
-            Row(verticalAlignment = Alignment.CenterVertically){
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.clickable(onClick = onTitleClick)
+            ){
                 Image(
                     painter = painterResource(chatUiState.profilePicture),
                     contentDescription = null,
@@ -80,11 +86,32 @@ fun ChatBar(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ContactProfileBar(
+    navigateUp: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    TopAppBar(
+        modifier = modifier,
+        navigationIcon = {
+            IconButton(onClick = navigateUp) {
+                Image(
+                    painter = painterResource(R.drawable.arrow_back),
+                    contentDescription = stringResource(R.string.back_button)
+                )
+            }
+        },
+        title = { Text(stringResource(MessengerScreen.ContactProfile.title)) },
+    )
+}
+
 @Composable
 fun MessengerAppBar(
     chatUiState: ChatUiState,
     currentScreen: MessengerScreen,
     navigateUp: () -> Unit,
+    onChatTitleClick: () -> Unit,
     modifier: Modifier = Modifier
 ){
     when (currentScreen) {
@@ -95,12 +122,14 @@ fun MessengerAppBar(
             ChatBar(
                 chatUiState = chatUiState,
                 navigateUp = navigateUp,
-                modifier = modifier
+                modifier = modifier,
+                onTitleClick = onChatTitleClick
             )
         }
-        MessengerScreen.ContactProfile -> {
-            //nothing for now
-        }
+        MessengerScreen.ContactProfile -> ContactProfileBar(
+            navigateUp = navigateUp,
+            modifier = modifier,
+        )
     }
 }
 
@@ -123,7 +152,12 @@ fun MessengerApp(
             MessengerAppBar(
                 chatUiState = messages,
                 currentScreen = currentScreen,
-                navigateUp = { navController.navigateUp() }
+                navigateUp = { navController.navigateUp() },
+                onChatTitleClick = {
+                    if (currentScreen == MessengerScreen.Messenger) {
+                        navController.navigate(MessengerScreen.ContactProfile.name)
+                    }
+                },
             )
         }
     ){ innerPadding ->
@@ -149,6 +183,17 @@ fun MessengerApp(
                     modifier = Modifier.statusBarsPadding(),
                     chatHistory = messages.messagesHistory,
                     sendMessage = {}
+                )
+            }
+            composable(route = MessengerScreen.ContactProfile.name) {
+                ContactProfileScreen(
+                    profilePicture = messages.profilePicture,
+                    nickname = messages.nickname,
+                    messageCount = messages.messagesHistory.size,
+                    onClearChat = {
+                        chatViewModel.clearMessages()
+                        navController.navigateUp()
+                    },
                 )
             }
         }
