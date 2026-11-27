@@ -27,4 +27,12 @@ class ChatViewModel : ViewModel() {
             )
         }
     }
+
+    fun clearMessages(){
+        val id = _uiState.value.id
+        DemoMessagesRepository.messageHistory[id] = emptyList()
+        _uiState.update { currentState ->
+            currentState.copy(messagesHistory = emptyList())
+        }
+    }
 }
