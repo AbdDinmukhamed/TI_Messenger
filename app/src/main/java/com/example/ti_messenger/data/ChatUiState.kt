@@ -7,4 +7,5 @@ data class ChatUiState(
     @DrawableRes val profilePicture: Int = 0,
     val nickname: String = "",
     val messagesHistory: List<Message> = listOf(),
+    val scrollPos: Int = 0,
 )

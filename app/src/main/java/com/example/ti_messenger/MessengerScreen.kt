@@ -64,7 +64,8 @@ fun MessengerApp(
                         chatViewModel.setChat(
                             id = contact.id,
                             profilePicture = contact.profilePicture,
-                            nickname = contact.nickname)
+                            nickname = contact.nickname,
+                            scrollPos = 0)
                         navController.navigate(MessengerScreen.Messenger.name)
                     },
                     contacts = contacts

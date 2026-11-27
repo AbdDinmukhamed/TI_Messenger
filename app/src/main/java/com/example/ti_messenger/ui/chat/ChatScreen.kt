@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -35,6 +36,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,6 +53,7 @@ import com.example.ti_messenger.R
 import com.example.ti_messenger.data.Message
 import com.example.ti_messenger.data.ChatUiState
 import com.example.ti_messenger.ui.theme.TI_MessengerTheme
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -60,15 +63,17 @@ fun ChatScreen(
     sendMessage: (String) -> Unit
 ){
     var messageInput by remember { mutableStateOf("") }
+    val listState = rememberLazyListState()
+    //val coroutineScope = rememberCoroutineScope()
     Column(modifier = Modifier
         .fillMaxSize()
-        .imePadding() ){
+        .imePadding()){
         LazyColumn(
             modifier = modifier
                 .weight(1f),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            state = listState
         ){
-
             items(chatHistory){message ->
                 val messageUser : Arrangement.Horizontal = if (message.userId == 0) Arrangement.End else Arrangement.Start
                 Row(
@@ -81,6 +86,7 @@ fun ChatScreen(
                 }
             }
         }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()

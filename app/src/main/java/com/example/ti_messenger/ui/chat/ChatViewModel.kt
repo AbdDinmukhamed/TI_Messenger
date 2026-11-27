@@ -17,13 +17,15 @@ class ChatViewModel : ViewModel() {
         id: Int,
         profilePicture: Int,
         nickname: String,
+        scrollPos: Int,
         ) {
         _uiState.update { currentState ->
             currentState.copy(
                 id = id,
                 profilePicture = profilePicture,
                 nickname = nickname,
-                messagesHistory = DemoMessagesRepository.messageHistory[id]!!
+                messagesHistory = DemoMessagesRepository.messageHistory[id]!!,
+                scrollPos = scrollPos,
             )
         }
     }
