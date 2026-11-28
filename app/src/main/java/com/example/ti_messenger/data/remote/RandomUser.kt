@@ -8,17 +8,17 @@ data class RandomUserResponse(
 )
 
 data class RandomUser(
-    val name: UserName,
-    val picture: UserPicture
+    val name: RandomUsername,
+    val picture: RandomUserPicture
 )
 
-data class UserName(
+data class RandomUsername(
     val title: String,
     val first: String,
     val last: String
 )
 
-data class UserPicture(
+data class RandomUserPicture(
     val large: String,
     val medium: String,
     val thumbnail: String
