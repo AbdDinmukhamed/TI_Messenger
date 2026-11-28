@@ -81,7 +81,7 @@ fun MessengerApp(
                 ChatScreen(
                     modifier = Modifier.statusBarsPadding(),
                     chatHistory = messages.messagesHistory,
-                    sendMessage = {},
+                    sendMessage = {text -> chatViewModel.sendMessage(text)},
                     scrollPosition = messages.scrollPos,
                     onSaveScrollPos = {
                         chatViewModel.saveScrollPosition(

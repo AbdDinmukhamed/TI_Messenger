@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.util.Calendar
 
 class ChatViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(ChatUiState())
@@ -33,6 +34,28 @@ class ChatViewModel : ViewModel() {
         }
     }
 
+    fun sendMessage(message: String){
+        if (message == "") return
+
+        _uiState.update { currentState ->
+            val chatId = currentState.id
+
+            val newMessage = Message(
+                text = message,
+                time = currentTime(),
+                userId = 0
+            )
+
+            val updatedHistory = DemoMessagesRepository.messageHistory[chatId].orEmpty() + newMessage
+            DemoMessagesRepository.messageHistory[chatId] = updatedHistory
+
+            currentState.copy(
+                messagesHistory = updatedHistory,
+                scrollPos = updatedHistory.size,
+            )
+        }
+    }
+
     fun getScrollPosition(id: Int, messages: List<Message>): Int{
         val savedValue = ScrollPositions.scrollPositions[id]
         if (savedValue == null){
@@ -50,5 +73,10 @@ class ChatViewModel : ViewModel() {
         _uiState.update { currentState ->
             currentState.copy(messagesHistory = emptyList())
         }
+    }
+
+    fun currentTime(): String{
+        val calendar = Calendar.getInstance()
+        return "${calendar.get(Calendar.HOUR)}:${calendar.get(Calendar.MINUTE)}"
     }
 }
