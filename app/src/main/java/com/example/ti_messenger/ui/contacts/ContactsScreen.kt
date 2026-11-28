@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ti_messenger.data.Contact
 import com.example.ti_messenger.data.Message
+import com.example.ti_messenger.data.remote.RandomUsersUiState
 import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 
 
@@ -29,13 +30,17 @@ fun ContactsScreen(
     modifier: Modifier = Modifier,
     contacts: List<Contact> = listOf(),
     onContactButtonClick: (Contact) -> Unit,
-    messagesDB: MutableMap<Int,List<Message>>
+    messagesDB: MutableMap<Int,List<Message>>,
+    randomUsersState: RandomUsersUiState = RandomUsersUiState.Loading,
+    onRetryRandomUsers: () -> Unit = {}
 ){
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ){
-
+        item{
+            DiscoverPeopleSection(uiState = randomUsersState, onRetry = onRetryRandomUsers)
+        }
         items(contacts){contact ->
             ContactCard(contact, onContactButtonClick = onContactButtonClick,messagesDB = messagesDB)
         }
