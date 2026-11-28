@@ -22,17 +22,21 @@ import com.example.ti_messenger.ui.chat.ChatViewModel
 import com.example.ti_messenger.ui.contacts.ContactsScreen
 import com.example.ti_messenger.ui.contacts.RandomUsersViewModel
 import com.example.ti_messenger.ui.profile.ContactProfileScreen
+import com.example.ti_messenger.ui.settings.SettingsScreen
 
 enum class MessengerScreen(@StringRes val title: Int) {
     Contacts(title = R.string.app_name),
     Messenger(title = R.string.messenger),
     ContactProfile(title = R.string.profile),
+    Settings(title = R.string.settings)
 }
 
 @Composable
 fun MessengerApp(
     contactsViewModel: ContactsViewModel = viewModel(),
     chatViewModel: ChatViewModel = viewModel(),
+    navController: NavHostController = rememberNavController(),
+    onThemeSwitch: () -> Unit
     randomUsersViewModel: RandomUsersViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
@@ -54,6 +58,9 @@ fun MessengerApp(
                         navController.navigate(MessengerScreen.ContactProfile.name)
                     }
                 },
+                navigateSettings = {
+                    navController.navigate(MessengerScreen.Settings.name)
+                }
             )
         }
     ){ innerPadding ->
@@ -100,6 +107,9 @@ fun MessengerApp(
                         navController.navigateUp()
                     },
                 )
+            }
+            composable(route = MessengerScreen.Settings.name) {
+                SettingsScreen(onThemeSwitch = onThemeSwitch)
             }
         }
     }

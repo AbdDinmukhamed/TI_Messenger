@@ -10,13 +10,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -29,6 +33,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -46,6 +51,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -112,7 +118,31 @@ fun ChatScreen(
                 }
             }
         }
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
+            .sizeIn(maxHeight = 90.dp)
+            .padding(bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding())
+        ){
+            Row(verticalAlignment = Alignment.CenterVertically){
+                Column(modifier= Modifier.weight(1f)){
+                    TextField(
+                        placeholder = { Text("Message") },
+                        value = messageInput,
+                        onValueChange = { messageInput = it },
+                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
+                        modifier=Modifier.fillMaxWidth()
+                    )
+                }
 
+                IconButton(onClick = {sendMessage(messageInput)},
+                    modifier = Modifier.size(40.dp)){
+                    Image(
+                        painter = painterResource(R.drawable.baseline_send_24),
+                        contentDescription = stringResource(R.string.send_desc),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
+                    )
+                }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -149,6 +179,12 @@ fun MessageCard(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(4.dp),
+        colors = CardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            disabledContainerColor = MaterialTheme.colorScheme.errorContainer,
+            disabledContentColor = MaterialTheme.colorScheme.onErrorContainer
+        )
     ){
         Column(
             modifier = Modifier
@@ -166,7 +202,32 @@ fun MessageCard(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GreetingPreview() {
-    TI_MessengerTheme {
+    TI_MessengerTheme() {
+        ChatScreen(modifier = Modifier.statusBarsPadding(), chatHistory = listOf(
+            Message("Test1","03:10",1),
+            Message("LOOOOOOOOOONG MESSAGE","03:10",0),
+            Message("Multi\nParagraph\nMessage","03:10",0),
+            Message("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac placerat nisi, ac venenatis quam. In in leo a neque fermentum placerat. Pellentesque tempus lectus ac eros placerat, sed scelerisque nisl placerat. Praesent quis metus ligula. Vestibulum eget dignissim eros, vel lacinia risus. Proin quis efficitur est","03:11",1),
+            Message("a","03:11",0),
+            Message("Test6","03:11",1),
+            Message("Test7","03:11",0),
+            Message("Test8","03:12",1),
+            Message("Test9","03:13",0),
+            Message("Test10","03:13",1),
+            Message("Test11","03:13",0),
+            Message("Test12","03:13",0),
+            Message("Test13","03:14",1),
+            Message("Test14","03:14",1),
+            Message("Test15","03:14",1),
+            Message("bro","03:14",1),
+        ), sendMessage = {}, scrollPosition = 0, onSaveScrollPos = {})
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun GreetingPreviewBlack() {
+    TI_MessengerTheme(darkTheme = true) {
         ChatScreen(modifier = Modifier.statusBarsPadding(), chatHistory = listOf(
             Message("Test1","03:10",1),
             Message("LOOOOOOOOOONG MESSAGE","03:10",0),
