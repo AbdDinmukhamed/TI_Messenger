@@ -7,4 +7,6 @@
     <string name="messages_count">Messages: %1$d</string>
     <string name="clear_chat">Clear chat</string>
     <string name="settings">Settings</string>
+    <string name="your_profile_picture">Your Profile Picture</string>
+    <string name="place_holder">Mary John</string>
 </resources>

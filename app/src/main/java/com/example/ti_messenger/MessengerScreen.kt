@@ -21,6 +21,7 @@ import com.example.ti_messenger.ui.chat.ChatScreen
 import com.example.ti_messenger.ui.chat.ChatViewModel
 import com.example.ti_messenger.ui.contacts.ContactsScreen
 import com.example.ti_messenger.ui.profile.ContactProfileScreen
+import com.example.ti_messenger.ui.settings.SettingsScreen
 
 enum class MessengerScreen(@StringRes val title: Int) {
     Contacts(title = R.string.app_name),
@@ -101,17 +102,7 @@ fun MessengerApp(
                 )
             }
             composable(route = MessengerScreen.Settings.name) {
-                ContactsScreen(
-                    onContactButtonClick = { contact ->
-                        chatViewModel.setChat(
-                            id = contact.id,
-                            profilePicture = contact.profilePicture,
-                            nickname = contact.nickname)
-                        navController.navigate(MessengerScreen.Messenger.name)
-                    },
-                    contacts = contacts,
-                    messagesDB = chatViewModel.getAllMessages()
-                )
+                SettingsScreen()
             }
         }
     }

@@ -26,7 +26,7 @@ fun ContactsBar(modifier: Modifier = Modifier,
     TopAppBar(
         title = {Text(stringResource(MessengerScreen.Contacts.title))},
         modifier = modifier,
-        navigationIcon = {
+        actions = {
             IconButton(onClick = navigateSettings){
                 Image(
                     painter = painterResource(R.drawable.baseline_settings_24),
