@@ -26,6 +26,7 @@ enum class MessengerScreen(@StringRes val title: Int) {
     Contacts(title = R.string.app_name),
     Messenger(title = R.string.messenger),
     ContactProfile(title = R.string.profile),
+    Settings(title = R.string.settings)
 }
 
 @Composable
@@ -51,6 +52,9 @@ fun MessengerApp(
                         navController.navigate(MessengerScreen.ContactProfile.name)
                     }
                 },
+                navigateSettings = {
+                    navController.navigate(MessengerScreen.Settings.name)
+                }
             )
         }
     ){ innerPadding ->
@@ -94,6 +98,19 @@ fun MessengerApp(
                         chatViewModel.clearMessages()
                         navController.navigateUp()
                     },
+                )
+            }
+            composable(route = MessengerScreen.Settings.name) {
+                ContactsScreen(
+                    onContactButtonClick = { contact ->
+                        chatViewModel.setChat(
+                            id = contact.id,
+                            profilePicture = contact.profilePicture,
+                            nickname = contact.nickname)
+                        navController.navigate(MessengerScreen.Messenger.name)
+                    },
+                    contacts = contacts,
+                    messagesDB = chatViewModel.getAllMessages()
                 )
             }
         }

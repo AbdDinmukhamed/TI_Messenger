@@ -21,10 +21,37 @@ import com.example.ti_messenger.data.ChatUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ContactsBar(modifier: Modifier = Modifier){
+fun ContactsBar(modifier: Modifier = Modifier,
+                navigateSettings: () -> Unit){
     TopAppBar(
         title = {Text(stringResource(MessengerScreen.Contacts.title))},
-        modifier = modifier
+        modifier = modifier,
+        navigationIcon = {
+            IconButton(onClick = navigateSettings){
+                Image(
+                    painter = painterResource(R.drawable.baseline_settings_24),
+                    contentDescription = stringResource(R.string.settings)
+                )
+            }
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SettingsBar(modifier: Modifier = Modifier,
+                navigateUp: () -> Unit){
+    TopAppBar(
+        title = {Text(stringResource(R.string.settings))},
+        modifier = modifier,
+        navigationIcon = {
+            IconButton(onClick = navigateUp){
+                Image(
+                    painter = painterResource(R.drawable.arrow_back),
+                    contentDescription = stringResource(R.string.settings)
+                )
+            }
+        }
     )
 }
 
@@ -92,23 +119,25 @@ fun MessengerAppBar(
     currentScreen: MessengerScreen,
     navigateUp: () -> Unit,
     onChatTitleClick: () -> Unit,
+    navigateSettings: () -> Unit,
     modifier: Modifier = Modifier
 ){
     when (currentScreen) {
-        MessengerScreen.Contacts -> {
-            ContactsBar(modifier = modifier)
-        }
-        MessengerScreen.Messenger -> {
-            ChatBar(
+        MessengerScreen.Contacts -> ContactsBar(modifier = modifier, navigateSettings)
+
+        MessengerScreen.Messenger -> ChatBar(
                 chatUiState = chatUiState,
                 navigateUp = navigateUp,
                 modifier = modifier,
                 onTitleClick = onChatTitleClick
             )
-        }
+
         MessengerScreen.ContactProfile -> ContactProfileBar(
             navigateUp = navigateUp,
             modifier = modifier,
         )
+
+        MessengerScreen.Settings -> SettingsBar(modifier = modifier, navigateUp)
+
     }
 }
