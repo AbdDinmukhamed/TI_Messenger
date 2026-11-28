@@ -180,7 +180,7 @@ fun ThemeSelection(modifier: Modifier = Modifier,
         IconButton(onClick = onThemeSwitch,
         ){
             Image(
-                painter = painterResource(R.drawable.baseline_settings_24),
+                painter = painterResource(R.drawable.baseline_wb_sunny_24),
                 contentDescription = stringResource(R.string.settings),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
             )
