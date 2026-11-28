@@ -79,7 +79,7 @@ fun ChatScreen(
     sendMessage: (String) -> Unit,
     scrollPosition: Int,
     onSaveScrollPos: (Int) -> Unit,
-){
+) {
     var messageInput by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -93,82 +93,69 @@ fun ChatScreen(
     LaunchedEffect(!isFocused) {
         onSaveScrollPos(listState.firstVisibleItemIndex)
     }
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .imePadding()){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .imePadding()
+    ) {
         LazyColumn(
             modifier = modifier
                 .weight(1f),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             state = listState
-        ){
+        ) {
             coroutineScope.launch {
                 listState.scrollToItem(scrollPosition)
             }
 
-            items(chatHistory){message ->
-                val messageUser : Arrangement.Horizontal = if (message.userId == 0) Arrangement.End else Arrangement.Start
+            items(chatHistory) { message ->
+                val messageUser: Arrangement.Horizontal =
+                    if (message.userId == 0) Arrangement.End else Arrangement.Start
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 8.dp, end = 8.dp),
                     horizontalArrangement = messageUser
-                ){
+                ) {
                     MessageCard(message)
                 }
             }
         }
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
-            .sizeIn(maxHeight = 90.dp)
-            .padding(bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding())
-        ){
-            Row(verticalAlignment = Alignment.CenterVertically){
-                Column(modifier= Modifier.weight(1f)){
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background)
+                .sizeIn(maxHeight = 90.dp)
+                .padding(
+                    bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                )
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Column(modifier = Modifier.weight(1f)) {
                     TextField(
                         placeholder = { Text("Message") },
                         value = messageInput,
                         onValueChange = { messageInput = it },
                         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
-                        modifier=Modifier.fillMaxWidth()
+                        keyboardActions = KeyboardActions(onSend = { submitMessage() }),
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
 
-                IconButton(onClick = {sendMessage(messageInput)},
-                    modifier = Modifier.size(40.dp)){
+                IconButton(
+                    onClick = submitMessage,
+                    modifier = Modifier.size(40.dp)
+                ) {
                     Image(
                         painter = painterResource(R.drawable.baseline_send_24),
                         contentDescription = stringResource(R.string.send_desc),
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
                     )
                 }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
-                .navigationBarsPadding(),
-            verticalAlignment = Alignment.CenterVertically){
-            TextField(
-                placeholder = { Text("Message") },
-                value = messageInput,
-                onValueChange = { messageInput = it },
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
-                keyboardActions = KeyboardActions(onSend = { submitMessage() }),
-                modifier = modifier.weight(1f)
-            )
-            IconButton(
-                onClick = submitMessage,
-                modifier = Modifier.size(40.dp)){
-                Image(
-                    painter = painterResource(R.drawable.baseline_send_24),
-                    contentDescription = stringResource(R.string.send_desc)
-                )
             }
         }
     }
 }
-
 
 @Composable
 fun MessageCard(

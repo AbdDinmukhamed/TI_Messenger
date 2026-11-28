@@ -35,8 +35,7 @@ enum class MessengerScreen(@StringRes val title: Int) {
 fun MessengerApp(
     contactsViewModel: ContactsViewModel = viewModel(),
     chatViewModel: ChatViewModel = viewModel(),
-    navController: NavHostController = rememberNavController(),
-    onThemeSwitch: () -> Unit
+    onThemeSwitch: () -> Unit,
     randomUsersViewModel: RandomUsersViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
