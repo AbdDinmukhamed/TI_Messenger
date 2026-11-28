@@ -34,7 +34,8 @@ enum class MessengerScreen(@StringRes val title: Int) {
 fun MessengerApp(
     contactsViewModel: ContactsViewModel = viewModel(),
     chatViewModel: ChatViewModel = viewModel(),
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    onThemeSwitch: () -> Unit
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = MessengerScreen.valueOf(
@@ -102,7 +103,7 @@ fun MessengerApp(
                 )
             }
             composable(route = MessengerScreen.Settings.name) {
-                SettingsScreen()
+                SettingsScreen(onThemeSwitch = onThemeSwitch)
             }
         }
     }
