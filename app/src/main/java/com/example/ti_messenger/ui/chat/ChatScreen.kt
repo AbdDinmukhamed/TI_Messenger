@@ -29,6 +29,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -83,6 +84,12 @@ fun ChatScreen(
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     val isFocused by listState.interactionSource.collectIsDraggedAsState()
+
+    val submitMessage: () -> Unit = {
+        sendMessage(messageInput)
+        messageInput = ""
+    }
+
     LaunchedEffect(!isFocused) {
         onSaveScrollPos(listState.firstVisibleItemIndex)
     }
@@ -136,6 +143,27 @@ fun ChatScreen(
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
                     )
                 }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background)
+                .navigationBarsPadding(),
+            verticalAlignment = Alignment.CenterVertically){
+            TextField(
+                placeholder = { Text("Message") },
+                value = messageInput,
+                onValueChange = { messageInput = it },
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
+                keyboardActions = KeyboardActions(onSend = { submitMessage() }),
+                modifier = modifier.weight(1f)
+            )
+            IconButton(
+                onClick = submitMessage,
+                modifier = Modifier.size(40.dp)){
+                Image(
+                    painter = painterResource(R.drawable.baseline_send_24),
+                    contentDescription = stringResource(R.string.send_desc)
+                )
             }
         }
     }

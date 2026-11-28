@@ -20,6 +20,7 @@ import com.example.ti_messenger.ui.contacts.ContactsViewModel
 import com.example.ti_messenger.ui.chat.ChatScreen
 import com.example.ti_messenger.ui.chat.ChatViewModel
 import com.example.ti_messenger.ui.contacts.ContactsScreen
+import com.example.ti_messenger.ui.contacts.RandomUsersViewModel
 import com.example.ti_messenger.ui.profile.ContactProfileScreen
 import com.example.ti_messenger.ui.settings.SettingsScreen
 
@@ -36,6 +37,8 @@ fun MessengerApp(
     chatViewModel: ChatViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
     onThemeSwitch: () -> Unit
+    randomUsersViewModel: RandomUsersViewModel = viewModel(),
+    navController: NavHostController = rememberNavController()
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = MessengerScreen.valueOf(
@@ -43,6 +46,7 @@ fun MessengerApp(
     )
     val contacts by contactsViewModel.contacts.collectAsStateWithLifecycle()
     val messages by chatViewModel.uiState.collectAsStateWithLifecycle()
+    val randomUsersState by randomUsersViewModel.uiState.collectAsStateWithLifecycle()
     Scaffold(
         topBar = {
             MessengerAppBar(
@@ -75,14 +79,16 @@ fun MessengerApp(
                         navController.navigate(MessengerScreen.Messenger.name)
                     },
                     contacts = contacts,
-                    messagesDB = chatViewModel.getAllMessages()
+                    messagesDB = chatViewModel.getAllMessages(),
+                    randomUsersState = randomUsersState,
+                    onRetryRandomUsers = {randomUsersViewModel.loadUsers()}
                 )
             }
             composable(route = MessengerScreen.Messenger.name) {
                 ChatScreen(
                     modifier = Modifier.statusBarsPadding(),
                     chatHistory = messages.messagesHistory,
-                    sendMessage = {},
+                    sendMessage = {text -> chatViewModel.sendMessage(text)},
                     scrollPosition = messages.scrollPos,
                     onSaveScrollPos = {
                         chatViewModel.saveScrollPosition(
