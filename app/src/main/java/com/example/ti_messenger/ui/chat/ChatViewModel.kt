@@ -14,7 +14,9 @@ class ChatViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState: StateFlow<ChatUiState> = _uiState.asStateFlow()
 
-
+    fun getAllMessages() : MutableMap<Int,List<Message>>{
+        return DemoMessagesRepository.messageHistory
+    }
     fun setChat(
         id: Int,
         profilePicture: Int,

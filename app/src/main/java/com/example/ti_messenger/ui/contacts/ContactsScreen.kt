@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ti_messenger.data.Contact
+import com.example.ti_messenger.data.Message
 import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 
 
@@ -27,7 +28,8 @@ import com.example.ti_messenger.ui.theme.TI_MessengerTheme
 fun ContactsScreen(
     modifier: Modifier = Modifier,
     contacts: List<Contact> = listOf(),
-    onContactButtonClick: (Contact) -> Unit
+    onContactButtonClick: (Contact) -> Unit,
+    messagesDB: MutableMap<Int,List<Message>>
 ){
     LazyColumn(
         modifier = modifier,
@@ -35,7 +37,7 @@ fun ContactsScreen(
     ){
 
         items(contacts){contact ->
-            ContactCard(contact, onContactButtonClick = onContactButtonClick)
+            ContactCard(contact, onContactButtonClick = onContactButtonClick,messagesDB = messagesDB)
         }
     }
 
@@ -45,8 +47,10 @@ fun ContactsScreen(
 fun ContactCard(
     contact: Contact,
     modifier: Modifier = Modifier,
-    onContactButtonClick: (Contact) -> Unit
+    onContactButtonClick: (Contact) -> Unit,
+    messagesDB: MutableMap<Int,List<Message>>
 ){
+    val message = messagesDB[contact.id]?.lastOrNull() ?: Message("say hi to them","",0)
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(4.dp),
@@ -67,9 +71,9 @@ fun ContactCard(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ){
                     Text(text = contact.nickname)
-                    Text(text = contact.lastTime)
+                    Text(text = message.time)
                 }
-                Text(text = contact.lastMessage, modifier = Modifier.padding(bottom = 4.dp))
+                Text(text = message.text, modifier = Modifier.padding(bottom = 4.dp))
             }
         }
     }
@@ -79,6 +83,6 @@ fun ContactCard(
 @Composable
 fun GreetingPreview() {
     TI_MessengerTheme {
-        ContactsScreen(modifier = Modifier.statusBarsPadding(), onContactButtonClick = {})
+        ContactsScreen(modifier = Modifier.statusBarsPadding(), onContactButtonClick = {},messagesDB=mutableMapOf())
     }
 }

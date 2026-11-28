@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.ti_messenger.data.Message
 import com.example.ti_messenger.ui.appbar.MessengerAppBar
 import com.example.ti_messenger.ui.contacts.ContactsViewModel
 import com.example.ti_messenger.ui.chat.ChatScreen
@@ -67,7 +68,8 @@ fun MessengerApp(
                             nickname = contact.nickname)
                         navController.navigate(MessengerScreen.Messenger.name)
                     },
-                    contacts = contacts
+                    contacts = contacts,
+                    messagesDB = chatViewModel.getAllMessages()
                 )
             }
             composable(route = MessengerScreen.Messenger.name) {
