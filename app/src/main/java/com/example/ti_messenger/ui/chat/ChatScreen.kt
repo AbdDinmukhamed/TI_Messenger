@@ -10,13 +10,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -28,6 +32,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -45,6 +50,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -105,26 +111,31 @@ fun ChatScreen(
                 }
             }
         }
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
+            .sizeIn(maxHeight = 90.dp)
+            .padding(bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding())
+        ){
+            Row(verticalAlignment = Alignment.CenterVertically){
+                Column(modifier= Modifier.weight(1f)){
+                    TextField(
+                        placeholder = { Text("Message") },
+                        value = messageInput,
+                        onValueChange = { messageInput = it },
+                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
+                        modifier=Modifier.fillMaxWidth()
+                    )
+                }
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
-                .navigationBarsPadding(),
-            verticalAlignment = Alignment.CenterVertically){
-            TextField(
-                placeholder = { Text("Message") },
-                value = messageInput,
-                onValueChange = { messageInput = it },
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
-                modifier = modifier.weight(1f)
-            )
-            IconButton(onClick = {sendMessage(messageInput)},
-                modifier = Modifier.size(40.dp)){
-                Image(
-                    painter = painterResource(R.drawable.baseline_send_24),
-                    contentDescription = stringResource(R.string.send_desc)
-                )
+                IconButton(onClick = {sendMessage(messageInput)},
+                    modifier = Modifier.size(40.dp)){
+                    Image(
+                        painter = painterResource(R.drawable.baseline_send_24),
+                        contentDescription = stringResource(R.string.send_desc),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
+                    )
+                }
             }
         }
     }
@@ -140,6 +151,12 @@ fun MessageCard(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(4.dp),
+        colors = CardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            disabledContainerColor = MaterialTheme.colorScheme.errorContainer,
+            disabledContentColor = MaterialTheme.colorScheme.onErrorContainer
+        )
     ){
         Column(
             modifier = Modifier
@@ -179,7 +196,7 @@ fun GreetingPreview() {
     }
 }
 
-@Preview(showSystemUi = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GreetingPreviewBlack() {
     TI_MessengerTheme(darkTheme = true) {
