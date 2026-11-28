@@ -22,8 +22,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.ti_messenger.R
 import com.example.ti_messenger.data.Contact
 import com.example.ti_messenger.data.Message
 import com.example.ti_messenger.ui.theme.TI_MessengerTheme
@@ -56,7 +58,7 @@ fun ContactCard(
     onContactButtonClick: (Contact) -> Unit,
     messagesDB: MutableMap<Int,List<Message>>
 ){
-    val message = messagesDB[contact.id]?.lastOrNull() ?: Message("say hi to them","",0)
+    val message = messagesDB[contact.id]?.lastOrNull() ?: Message(stringResource(R.string.default_empty_string),"",0)
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(4.dp),
@@ -73,14 +75,20 @@ fun ContactCard(
             Image(
                 painter = painterResource(contact.profilePicture),
                 contentDescription = null,
-                modifier = Modifier.size(64.dp).padding(4.dp),
+                modifier = Modifier
+                    .size(64.dp)
+                    .padding(4.dp),
             )
             Column(
-                modifier = Modifier.height(64.dp).padding(start = 4.dp, end = 8.dp),
+                modifier = Modifier
+                    .height(64.dp)
+                    .padding(start = 4.dp, end = 8.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ){
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ){
                     Text(text = contact.nickname)
