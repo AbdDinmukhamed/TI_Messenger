@@ -80,13 +80,9 @@ fun ChatScreen(
     LaunchedEffect(!isFocused) {
         onSaveScrollPos(listState.firstVisibleItemIndex)
     }
-    Log.d("lazyLISIIIISTISTI",listState.firstVisibleItemIndex.toString())
     Column(modifier = Modifier
         .fillMaxSize()
         .imePadding()){
-        LaunchedEffect(isFocused) {
-            println("isFocused: $isFocused")
-        }
         LazyColumn(
             modifier = modifier
                 .weight(1f),

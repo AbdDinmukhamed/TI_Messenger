@@ -5,7 +5,6 @@ import com.example.ti_messenger.data.ChatUiState
 import com.example.ti_messenger.data.DemoMessagesRepository
 import com.example.ti_messenger.data.Message
 import com.example.ti_messenger.data.ScrollPositions
-import com.example.ti_messenger.data.ScrollPositions.scrollPositions
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,8 +25,8 @@ class ChatViewModel : ViewModel() {
                 id = id,
                 profilePicture = profilePicture,
                 nickname = nickname,
-                messagesHistory = DemoMessagesRepository.messageHistory[id]!!,
-                scrollPos = getScrollPosition(id, DemoMessagesRepository.messageHistory[id]!!),
+                messagesHistory = DemoMessagesRepository.messageHistory[id].orEmpty(),
+                scrollPos = getScrollPosition(id, DemoMessagesRepository.messageHistory[id].orEmpty()),
             )
         }
     }
