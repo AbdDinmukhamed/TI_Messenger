@@ -11,7 +11,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TI_MessengerTheme {
+            TI_MessengerTheme(darkTheme = true) {
                 MessengerApp()
             }
         }

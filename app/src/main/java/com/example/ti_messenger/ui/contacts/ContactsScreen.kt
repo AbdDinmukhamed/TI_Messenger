@@ -1,6 +1,8 @@
 package com.example.ti_messenger.ui.contacts
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +15,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -38,6 +43,7 @@ fun ContactsScreen(
 
         items(contacts){contact ->
             ContactCard(contact, onContactButtonClick = onContactButtonClick,messagesDB = messagesDB)
+            HorizontalDivider(Modifier.fillMaxWidth(), thickness = 1.dp, color = MaterialTheme.colorScheme.primaryContainer)
         }
     }
 
@@ -54,7 +60,14 @@ fun ContactCard(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(4.dp),
-        onClick = { onContactButtonClick(contact) }
+        onClick = { onContactButtonClick(contact) },
+        colors = CardColors(
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = MaterialTheme.colorScheme.onBackground,
+            disabledContainerColor = MaterialTheme.colorScheme.errorContainer,
+            disabledContentColor = MaterialTheme.colorScheme.onErrorContainer
+        ),
+
     ){
         Row(){
             Image(

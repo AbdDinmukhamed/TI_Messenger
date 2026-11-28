@@ -157,7 +157,32 @@ fun MessageCard(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GreetingPreview() {
-    TI_MessengerTheme {
+    TI_MessengerTheme() {
+        ChatScreen(modifier = Modifier.statusBarsPadding(), chatHistory = listOf(
+            Message("Test1","03:10",1),
+            Message("LOOOOOOOOOONG MESSAGE","03:10",0),
+            Message("Multi\nParagraph\nMessage","03:10",0),
+            Message("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac placerat nisi, ac venenatis quam. In in leo a neque fermentum placerat. Pellentesque tempus lectus ac eros placerat, sed scelerisque nisl placerat. Praesent quis metus ligula. Vestibulum eget dignissim eros, vel lacinia risus. Proin quis efficitur est","03:11",1),
+            Message("a","03:11",0),
+            Message("Test6","03:11",1),
+            Message("Test7","03:11",0),
+            Message("Test8","03:12",1),
+            Message("Test9","03:13",0),
+            Message("Test10","03:13",1),
+            Message("Test11","03:13",0),
+            Message("Test12","03:13",0),
+            Message("Test13","03:14",1),
+            Message("Test14","03:14",1),
+            Message("Test15","03:14",1),
+            Message("bro","03:14",1),
+        ), sendMessage = {}, scrollPosition = 0, onSaveScrollPos = {})
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun GreetingPreviewBlack() {
+    TI_MessengerTheme(darkTheme = true) {
         ChatScreen(modifier = Modifier.statusBarsPadding(), chatHistory = listOf(
             Message("Test1","03:10",1),
             Message("LOOOOOOOOOONG MESSAGE","03:10",0),

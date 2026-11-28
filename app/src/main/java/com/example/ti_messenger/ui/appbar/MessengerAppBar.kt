@@ -1,5 +1,6 @@
 package com.example.ti_messenger.ui.appbar
 
+import android.graphics.drawable.VectorDrawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -7,11 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -27,10 +30,12 @@ fun ContactsBar(modifier: Modifier = Modifier,
         title = {Text(stringResource(MessengerScreen.Contacts.title))},
         modifier = modifier,
         actions = {
-            IconButton(onClick = navigateSettings){
+            IconButton(onClick = navigateSettings,
+                ){
                 Image(
                     painter = painterResource(R.drawable.baseline_settings_24),
-                    contentDescription = stringResource(R.string.settings)
+                    contentDescription = stringResource(R.string.settings),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
                 )
             }
         }
@@ -48,7 +53,8 @@ fun SettingsBar(modifier: Modifier = Modifier,
             IconButton(onClick = navigateUp){
                 Image(
                     painter = painterResource(R.drawable.arrow_back),
-                    contentDescription = stringResource(R.string.settings)
+                    contentDescription = stringResource(R.string.settings),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
                 )
             }
         }
@@ -69,7 +75,8 @@ fun ChatBar(
             IconButton(onClick = navigateUp){
                 Image(
                     painter = painterResource(R.drawable.arrow_back),
-                    contentDescription = stringResource(R.string.back_button)
+                    contentDescription = stringResource(R.string.back_button),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
                 )
             }
         },
@@ -105,7 +112,8 @@ fun ContactProfileBar(
             IconButton(onClick = navigateUp) {
                 Image(
                     painter = painterResource(R.drawable.arrow_back),
-                    contentDescription = stringResource(R.string.back_button)
+                    contentDescription = stringResource(R.string.back_button),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
                 )
             }
         },
